@@ -1,0 +1,7 @@
+<h1>질문 생성하기</h1>
+<form action="/questions/create" method="post">
+    {% csrf_token %}
+    <input type="text" name="subject" placeholder="제목" required>
+    <input type="text" name="content" placeholder="내용" required>
+    <button type="submit">등록</button>
+</form>
