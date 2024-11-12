@@ -9,8 +9,9 @@ def question_detail(request, question_id):
     return render(request, 'question_detail.html', context)
 
 def question_list(request):
-    questions = Question.objects.all()
-    context = {'questions': questions}
+    keyword = request.GET.get('keyword', '')
+    questions = Question.objects.filter(subject__icontains = keyword) | Question.objects.filter(content__icontains = keyword)
+    context = {'questions': questions, 'keyword': keyword}
     return render(request, 'question_list.html', context)
 
 def question_create(request):
@@ -23,3 +24,20 @@ def question_create(request):
             create_date = timezone.now()
         )
         return redirect('/questions')
+
+def question_delete(request, question_id):
+    question = Question.objects.get(id = question_id)
+    question.delete()
+    return redirect('/questions')
+
+def question_update(request, question_id):
+    question = Question.objects.get(id = question_id)
+    if request.method == 'GET':
+        context = {'question' : question}
+        return render(request, 'question_update.html', context)
+
+    if request.method == 'POST':
+        question.subject = request.POST['subject']
+        question.content = request.POST['content']
+        question.save()
+        return redirect(f'/questions/{question_id}')
