@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
-from questions.models import Question
+from questions.models import Question, Answer
 from django.utils import timezone
 
 # Create your views here.
 def question_detail(request, question_id):
     question = Question.objects.get(id=question_id)
-    context = {'question' : question}
+    answers = Answer.objects.filter(question = question)
+    context = {'question' : question, 'answers': answers}
     return render(request, 'question_detail.html', context)
 
 def question_list(request):
@@ -40,4 +41,14 @@ def question_update(request, question_id):
         question.subject = request.POST['subject']
         question.content = request.POST['content']
         question.save()
+        return redirect(f'/questions/{question_id}')
+
+def answer_create(request, question_id):
+    if request.method == 'POST':
+        question = Question.objects.get(id=question_id)
+        Answer.objects.create(
+            question = question,
+            content = request.POST['content'],
+            create_date = timezone.now()
+        )
         return redirect(f'/questions/{question_id}')

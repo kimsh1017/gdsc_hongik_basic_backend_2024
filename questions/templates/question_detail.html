@@ -4,3 +4,18 @@
 
 <a href="/questions/{{question.id}}/update">수정</a>
 <a href="/questions/{{question.id}}/delete">삭제</a>
+
+<form action="/questions/{{question.id}}/answer_create" method="post">
+    {% csrf_token %}
+    <input type="text" name="content" placeholder="답변을 입력하세요" required>
+    <button type="submit">제출</button>
+</form>
+
+<ul>
+    {% for answer in answers %}
+    <li>
+        <p>{{answer.content}}</p>
+        <p><small>{{answer.create_date}}</small></p>
+    </li>
+    {% endfor %}
+</ul>
