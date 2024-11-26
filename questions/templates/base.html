@@ -1,0 +1,28 @@
+<!-- /templastes/base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <title>MyApp Board</title>
+  </head>
+  <body>
+    <!-- 네비게이션 바 -->
+    <nav class="navbar">
+      <ul class="nav-links">
+        <li><a href="/questions">Home</a></li>
+        <li><a href="/questions">Login</a></li>
+      </ul>
+    </nav>
+
+    <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+    <div class="content">{% block content %} {% endblock %}</div>
+  </body>
+</html>

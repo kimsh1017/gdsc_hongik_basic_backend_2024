@@ -1,21 +1,35 @@
-<h1>{{question.subject}}</h1>
-<p>{{question.content}}</p>
-<p>{{question.create_date}}</p>
-
-<a href="/questions/{{question.id}}/update">수정</a>
-<a href="/questions/{{question.id}}/delete">삭제</a>
-
-<form action="/questions/{{question.id}}/answer_create" method="post">
-    {% csrf_token %}
-    <input type="text" name="content" placeholder="답변을 입력하세요" required>
-    <button type="submit">제출</button>
-</form>
-
-<ul>
+<!-- /templates/question_detail.html -->
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <!-- Question Details -->
+  <h1>{{ question.subject }}</h1>
+  <div class="question-detail">
+    <p class="content">{{ question.content }}</p>
+    <p><small>생성일: {{ question.create_date }}</small></p>
+  </div>
+  <!-- Update & Delete form-->
+  <div class="question-btns">
+    <a href="/questions/{{question.id}}/update" class="btn">수정</a>
+    <a href="/questions/{{question.id}}/delete" class="btn">삭제</a>
+  </div>
+  <!-- Answer List -->
+  <h2>답변</h2>
+  <div class="answer-list">
     {% for answer in answers %}
-    <li>
-        <p>{{answer.content}}</p>
-        <p><small>{{answer.create_date}}</small></p>
-    </li>
+    <div class="answer">
+      <p>{{ answer.content }}</p>
+      <p><small>Created at: {{ answer.create_date }}</small></p>
+    </div>
+    {% empty %}
+    <p>아직 답변이 없습니다.</p>
     {% endfor %}
-</ul>
+  </div>
+  <!-- Add Answer Form -->
+  <h3>답변 추가</h3>
+  <form action="/questions/{{question.id}}/answer_create" method="post">
+    {% csrf_token %}
+    <textarea name="content" placeholder="답변을 제출해보세요" required></textarea>
+    <button type="submit" class="btn">제출</button>
+  </form>
+</div>
+{% endblock %}

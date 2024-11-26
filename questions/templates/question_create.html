@@ -1,7 +1,12 @@
-<h1>질문 생성하기</h1>
-<form action="/questions/create" method="post">
+<!-- /templates/question_create_form.html -->
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <h1>질문 등록하기</h1>
+  <form action="/questions/create" method="post">
     {% csrf_token %}
-    <input type="text" name="subject" placeholder="제목" required>
-    <input type="text" name="content" placeholder="내용" required>
+    <textarea name="subject" placeholder="제목을 입력하세요" required></textarea>
+    <textarea name="content" placeholder="내용을 입력하세요" required></textarea>
     <button type="submit">등록</button>
-</form>
+  </form>
+</div>
+{% endblock %}

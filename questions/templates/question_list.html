@@ -1,10 +1,69 @@
-<form action="/questions" method="get">
-    <input type="text" name="keyword" value="{{keyword}}">
-    <button type="submit">검색</button>
-</form>
-<ol>
-    {% for question in questions %}
-    <a href="/questions/{{question.id}}"><li>{{question.subject}}</li></a>
-    {% endfor %}
-</ol>
-<a href="/questions/create">질문 등록하기</a>
+<!-- /templates/question_list.html -->
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <h1>질문 게시판</h1>
+  <div class="question-btns">
+    <!-- Search Form -->
+    <form action="/questions" method="get" class="search-form">
+      <input
+        type="text"
+        name="keyword"
+        placeholder="검색어 입력"
+        value="{{keyword}}"
+      />
+      <button type="submit" class="btn">검색</button>
+    </form>
+    <!-- Create Question Button -->
+    <a href="/questions/create" class="btn">질문 생성</a>
+  </div>
+  <table class="question-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>생성일자</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for question in questions%}
+      <tr>
+        <td class="question_links">
+          <a href="/questions/{{question.id}}"
+            >{{ question.id }}</a
+          >
+        </td>
+        <td class="question_links">
+          <a href="/questions/{{question.id}}"
+            >{{ question.subject }}</a
+          >
+        </td>
+        <td>{{ question.create_date }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">아직 질문이 없습니다.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Pagination
+  <div class="pagination">
+    <span class="step-links">
+      {% if questions.has_previous %}
+      <a href="?page=1">&laquo; 처음으로</a>
+      <a href="?page={{ questions.previous_page_number }}">이전</a>
+      {% endif %}
+
+      <span class="current">
+        {{ questions.number }} / {{ questions.paginator.num_pages }}
+      </span>
+
+      {% if questions.has_next %}
+      <a href="?page={{ questions.next_page_number }}">다음</a>
+      <a href="?page={{ questions.paginator.num_pages }}">마지막으로 &raquo;</a>
+      {% endif %}
+    </span>
+  </div> -->
+</div>
+{% endblock %}
